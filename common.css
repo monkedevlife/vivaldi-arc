@@ -13,24 +13,23 @@
   --window-button-opacity: 0.3;
   --tab-padding: calc(var(--window-border) / 2);
   --colorToviTransparent: transparent;
-  --webview-shadow-light: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
-    0px 0px var(--window-border) 0px rgba(0, 0, 0, 0.1);
-  --webview-shadow-dark: 0px 2px 2px 0px rgba(0, 0, 0, 0.05),
-    0px 2px 8px 0px rgba(0, 0, 0, 0.05), 0px 0px 0px 1.2px #ffffff18;
 }
 
-#browser {
-  .mainbar,
-  #header,
-  #footer,
-  #panels-container,
-  .bookmark-bar {
-    border: none !important;
+#browser:not(.theme-dark) {
+  #tabs-tabbar-container {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .tab-wrapper {
+    backdrop-filter: none !important;
+    background-color: none !important;
   }
 
   .mainbar,
   #header,
   #footer,
+  .inner,
   .bookmark-bar {
     background-color: var(--colorBgAlphaBlur) !important;
   }
@@ -43,14 +42,6 @@
   }
 
   &:not(.fullscreen) {
-    button[name="WorkspaceButton"] {
-      margin: 10px;
-
-      .button-icon {
-        margin-right: 9px !important;
-      }
-    }
-
     #panel_switch {
       background-color: unset;
     }
@@ -60,20 +51,184 @@
     }
 
     #webview-container {
-      margin-left: var(--tab-bar-width);
-      margin-right: var(--tab-bar-width);
-      margin-bottom: var(--tab-bar-width);
       background-color: var(--colorBgAlphaBlur);
-    }
-
-    #webpage-stack,
-    .tiled.webpageview {
-      border-radius: var(--radius) !important;
     }
 
     .color-behind-tabs-on .bookmark-bar button,
     .bookmark-bar .observer {
       background-color: unset;
+    }
+
+    .inner > .tabbar-wrapper {
+      background: unset;
+      backdrop-filter: none !important;
+
+      .tabbar-wrapper {
+        backdrop-filter: none !important;
+        background: transparent;
+      }
+
+      #tabs-tabbar-container .tab-strip {
+        &::-webkit-scrollbar {
+          border: 1px solid var(--scrollbar-border-color) !important;
+          color: var(--colorFg);
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+      }
+
+      #tabs-tabbar-container #tabs-container:is(.left, .right) {
+        background-color: unset;
+        backdrop-filter: unset;
+      }
+    }
+  }
+
+  .density-on .tab.active:not(.tab-in-accordion, .tab-accordion) {
+    box-shadow: none;
+    border: 0.5px solid var(--colorFgAlpha);
+  }
+
+  /* Hovered tabs */
+  &:has(button[name="WorkspaceButton"].button-pressed) #main .tabbar-wrapper,
+  &:has(button[name="SyncedTabs"].button-pressed) #main .tabbar-wrapper,
+  & .tabbar-wrapper:hover {
+    box-shadow: 0px 0.1px 0px 0.5px var(--colorFgAlpha);
+    #tabs-tabbar-container:is(.left, .right) #tabs-container {
+      background-color: var(--colorBgAlpha);
+      backdrop-filter: var(--backgroundBlur);
+
+      /* Tabs background */
+      .resize > div > span > div > div > div:hover {
+        background: var(--colorFgAlpha);
+      }
+    }
+  }
+}
+
+#browser.theme-dark {
+  .UrlBar-AddressField {
+    background: var(--colorFgAlpha);
+  }
+
+  #tabs-tabbar-container {
+    box-shadow: none !important;
+    background-color: var(--colorBgAlphaBlur) !important;
+    backdrop-filter: var(--backgroundBlur) !important;
+  }
+
+  .tab-wrapper {
+    backdrop-filter: var(--backgroundBlur) !important;
+    background-color: var(--colorBgAlpha) !important;
+  }
+
+  .mainbar,
+  #header,
+  #footer,
+  .inner,
+  .bookmark-bar {
+    background-color: var(--colorBgAlphaBlur) !important;
+  }
+
+  #main,
+  #header,
+  #footer,
+  .panel-group {
+    backdrop-filter: var(--backgroundBlur);
+  }
+
+  &:not(.fullscreen) {
+    #panel_switch {
+      background-color: unset;
+    }
+
+    #switch {
+      backdrop-filter: unset;
+    }
+
+    #webview-container {
+      background-color: var(--colorBgAlphaBlur);
+    }
+
+    .color-behind-tabs-on .bookmark-bar button,
+    .bookmark-bar .observer {
+      background-color: unset;
+    }
+
+    .inner > .tabbar-wrapper {
+      background: unset;
+      backdrop-filter: none !important;
+
+      .tabbar-wrapper {
+        backdrop-filter: none !important;
+        background: transparent;
+      }
+
+      #tabs-tabbar-container .tab-strip {
+        &::-webkit-scrollbar {
+          border: 1px solid var(--scrollbar-border-color) !important;
+          color: var(--colorFg);
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+      }
+
+      #tabs-tabbar-container #tabs-container:is(.left, .right) {
+        background-color: unset;
+        backdrop-filter: unset;
+      }
+    }
+  }
+
+  /* Hovered tabs */
+  &:has(button[name="WorkspaceButton"].button-pressed) #main .tabbar-wrapper,
+  &:has(button[name="SyncedTabs"].button-pressed) #main .tabbar-wrapper,
+  & .tabbar-wrapper:hover {
+    #tabs-tabbar-container:is(.left, .right) #tabs-container {
+      background-color: var(--colorBgAlpha);
+      backdrop-filter: var(--backgroundBlur);
+
+      /* Tabs background */
+      .resize > div > span > div > div > div:hover {
+        background: var(--colorFgAlpha);
+      }
+    }
+  }
+}
+
+/* Browser Main Theme */
+#browser {
+  .mainbar,
+  #header,
+  #footer,
+  #panels-container,
+  .bookmark-bar {
+    border: none !important;
+  }
+
+  &:not(.fullscreen) {
+    button[name="WorkspaceButton"] {
+      margin: 10px;
+
+      .button-icon {
+        margin-right: 9px !important;
+      }
+    }
+
+    #webview-container {
+      margin-left: var(--tab-bar-width);
+      margin-right: var(--tab-bar-width);
+      margin-bottom: var(--tab-bar-width);
+      border-radius: var(--radius) !important;
+    }
+
+    #webpage-stack,
+    .tiled.webpageview {
+      border-radius: var(--radius) !important;
     }
 
     .tabbar-workspace-button + #tabs-tabbar-container.left,
@@ -85,11 +240,8 @@
       position: absolute;
       overflow: hidden;
       z-index: 1;
-      background: unset;
 
       .tabbar-wrapper {
-        background: var(--colorBgAlphaBlur);
-
         > div:not(.tabbar-wrapper) {
           padding-top: 0;
         }
@@ -134,14 +286,8 @@
           &::-webkit-scrollbar {
             padding: 0 2px !important;
             width: var(--scrollbar-width) !important;
-            border: 1px solid var(--scrollbar-border-color) !important;
             border-radius: var(--radiusHalf) !important;
             display: none;
-            color: var(--colorFg);
-          }
-
-          &::-webkit-scrollbar-track {
-            background: transparent;
           }
 
           &::-webkit-scrollbar-button {
@@ -160,8 +306,6 @@
         }
 
         #tabs-container:is(.left, .right) {
-          background-color: unset;
-          backdrop-filter: unset;
           transition: background-color 0.25s;
 
           .toolbar.toolbar-tabbar-after {
@@ -188,9 +332,6 @@
       }
 
       #tabs-container {
-        background-color: var(--colorBg);
-        backdrop-filter: var(--backgroundBlur);
-
         .toolbar.toolbar-tabbar-after {
           display: flex;
         }
